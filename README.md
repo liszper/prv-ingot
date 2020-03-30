@@ -1,4 +1,5 @@
-# PRV Ingot is a Clojurescript development kit for [Incognito](https://incognito.org).
+# PRV Ingot
+### is a Clojurescript development kit for [Incognito](https://incognito.org).
 
 ## Available Scripts
 
