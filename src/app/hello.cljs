@@ -27,7 +27,7 @@
 
 (defn wallets [state]
   [:div
-   [:p "WASM ready? "(if (:wasm-ready? @state) "true" "false")]
+   [:p "WASM ready? "(if (:wasm-ready? @state) "true" "false (please be patient, it takes a few minutes at the first time)")]
    ;[:h3 "pApp Wallet"]
 
    [:h3 "Wallet with SDK v2"]
