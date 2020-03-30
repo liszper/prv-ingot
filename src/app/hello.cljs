@@ -4,13 +4,15 @@
     [clojure.core.async :as async]
     ["incognito-js" :as incognito-js]
     ["papp-sdk" :as papp]
+    [async-await.core :refer [async await]]
     ))
 
 (def state (r/atom {}))
 
-(.then
-  (incognito-js/goServices.implementGoMethodUseWasm)
-  (swap! state assoc :wasm-ready? true))
+(async
+  (let []
+    (await (incognito-js/goServices.implementGoMethodUseWasm))
+    (swap! state assoc :wasm-ready? true)))
 (def ^:export wallet (incognito-js/WalletInstance.))
 
 (js/console.log papp)
@@ -25,10 +27,10 @@
 
 (defn wallets [state]
   [:div
-   [:p "WASM ready? "(str (:wasm-ready? @state))]
+   [:p "WASM ready? "(if (:wasm-ready? @state) "true" "false")]
    ;[:h3 "pApp Wallet"]
 
-   [:h3 "Wallet with SDK"]
+   [:h3 "Wallet with SDK v2"]
    (if-let [accounts (js->clj (:accounts @state))]
      (doall
      (map
@@ -38,17 +40,17 @@
         [:h4 "Your generated PRV address: "(-> account .-nativeToken .-accountKeySet .-publicKeyCheckEncode)]
         [:h4 "Validator key: "(-> account .-nativeToken .-accountKeySet .-validatorKey)]
         ;[:h4 "Balance: "(-> account .-nativeToken (.getAvaiableBalance)) " PRV"]
-        [:div "Others: "
-         (map
-           (fn [id]
-             [:p id])
-           (js->clj (-> account .-privacyTokenIds))
-           )
-         ]
+        ;[:div "Others: "
+        ; (map
+        ;   (fn [id]
+        ;     [:p id])
+        ;   (js->clj (-> account .-privacyTokenIds))
+        ;   )
+        ; ]
         ])
      accounts 
      ))
-     [:h4 "empty"]
+     [:p "empty"]
      )
    [:br]
    [:input 
@@ -76,5 +78,4 @@
 
 (defn hello []
   [:<>
-   [:p "Hello anonymous!"]
    [wallets state]])
