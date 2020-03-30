@@ -1,11 +1,14 @@
 pom.xml
 pom.xml.asc
 *.jar
+*.map
 *.class
 /lib/
 /classes/
 /target/
+/public/js/
 /checkouts/
+/node_modules/
 .lein-deps-sum
 .lein-repl-history
 .lein-plugins/
