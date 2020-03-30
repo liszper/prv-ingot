@@ -6,7 +6,11 @@
     ["papp-sdk" :as papp]
     ))
 
-(incognito-js/goServices.implementGoMethodUseWasm)
+(def state (r/atom {}))
+
+(.then
+  (incognito-js/goServices.implementGoMethodUseWasm)
+  (swap! state assoc :wasm-ready? true))
 (def ^:export wallet (incognito-js/WalletInstance.))
 
 (js/console.log papp)
@@ -21,7 +25,8 @@
 
 (defn wallets [state]
   [:div
-   [:h3 "pApp Wallet"]
+   [:p "WASM ready? "(str (:wasm-ready? @state))]
+   ;[:h3 "pApp Wallet"]
 
    [:h3 "Wallet with SDK"]
    (if-let [accounts (js->clj (:accounts @state))]
@@ -46,13 +51,20 @@
      [:h4 "empty"]
      )
    [:br]
-   [:input {:type "button" :value "Generate wallet"
-            :on-click #(do
-                         (.then
-                           (.init wallet "my-passphrase" "TEST-WALLET")
-                           (fn [] 
-                             (swap! state assoc :accounts (.getAccounts (.-masterAccount wallet)))))
-                         )}]
+   [:input 
+    (merge
+      {:type "button" :value "Generate wallet"
+       :on-click #(do
+                    (.then
+                      (.init wallet "my-passphrase" "TEST-WALLET")
+                      (fn [] 
+                        (swap! state assoc :accounts (.getAccounts (.-masterAccount wallet)))))
+                    )}
+      (when-not (:wasm-ready? @state)
+        {:disabled "disabled"}
+        )
+      )]
+
    ;[:input {:type "button" :value "Follow pBTC"
    ;         :on-click #(do
    ;                      (.followTokenById
@@ -61,8 +73,6 @@
    ;                      )}]
    
    ])
-
-(def state (r/atom {}))
 
 (defn hello []
   [:<>
