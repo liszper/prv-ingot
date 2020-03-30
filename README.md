@@ -1,4 +1,4 @@
-This project was bootstrapped with [Create CLJS App](https://github.com/filipesilva/create-cljs-app).
+# PRV Ingot is a Clojurescript development kit for [Incognito](https://incognito.org).
 
 ## Available Scripts
 
@@ -55,17 +55,6 @@ Consider [code-splitting](https://code.thheller.com/blog/shadow-cljs/2019/03/03/
 Starts a Shadow CLJS background server.<br>
 This will speed up starting time for other commands that use Shadow CLJS.
 
-## Useful resources
+## Author
 
-Clojurians Slack http://clojurians.net/.
-
-CLJS FAQ (for JavaScript developers) https://clojurescript.org/guides/faq-js.
-
-Official CLJS API https://cljs.github.io/api/.
-
-Quick reference https://cljs.info/cheatsheet/.
-
-Offline searchable docs https://devdocs.io/.
-
-VSCode plugin https://github.com/BetterThanTomorrow/calva.
-
+@raz / @liszper
